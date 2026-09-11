@@ -1,0 +1,2962 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cirugía</title>
+<style>
+:root{
+  --bg:#050816; --bg2:#0f172a; --card:rgba(255,255,255,.075); --card2:rgba(255,255,255,.045);
+  --line:rgba(255,255,255,.12); --text:#f8fafc; --muted:#9ca3af; --blue:#38bdf8; --green:#22c55e;
+  --purple:#a78bfa; --danger:#ef4444; --shadow:0 24px 70px rgba(0,0,0,.42); --radius:26px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; color:var(--text); font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 5% 0%, rgba(56,189,248,.22), transparent 28%),
+    radial-gradient(circle at 95% 5%, rgba(34,197,94,.17), transparent 26%),
+    radial-gradient(circle at 50% 100%, rgba(167,139,250,.16), transparent 30%),
+    linear-gradient(180deg,#020617,#0f172a 48%,#020617);
+}
+.app{display:grid; grid-template-columns:315px 1fr; min-height:100vh;}
+.sidebar{
+  position:sticky; top:0; height:100vh; padding:24px 18px; border-right:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(2,6,23,.88),rgba(15,23,42,.74)); backdrop-filter:blur(18px);
+}
+.brand{
+  padding:22px; border:1px solid var(--line); border-radius:var(--radius);
+  background:linear-gradient(135deg,rgba(56,189,248,.16),rgba(34,197,94,.10)); box-shadow:var(--shadow);
+}
+.brand h1{margin:0; font-size:31px; letter-spacing:.2px; background:linear-gradient(90deg,#7dd3fc,#86efac); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.brand p{margin:9px 0 0; color:var(--muted); line-height:1.45; font-size:13px;}
+.nav{display:grid; gap:11px; margin-top:18px;}
+.nav-item{
+  width:100%; display:flex; align-items:center; gap:13px; text-align:left; cursor:pointer; border:1px solid var(--line); color:var(--text);
+  background:rgba(255,255,255,.045); border-radius:20px; padding:14px 15px; transition:.18s ease; box-shadow:0 10px 26px rgba(0,0,0,.12);
+}
+.nav-item:hover{transform:translateY(-2px); border-color:rgba(56,189,248,.42); background:rgba(56,189,248,.09)}
+.nav-item.active{background:linear-gradient(135deg,rgba(14,165,233,.26),rgba(34,197,94,.16)); border-color:rgba(125,211,252,.55); box-shadow:0 16px 38px rgba(14,165,233,.16)}
+.nav-icon{font-size:22px; width:30px; text-align:center}
+.nav-text{display:grid; gap:3px}
+.nav-text strong{font-size:14px}
+.nav-text small{font-size:11px; color:var(--muted); line-height:1.25}
+.main{padding:24px; min-width:0;}
+.hero{
+  display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:18px; padding:20px 22px; border:1px solid var(--line);
+  border-radius:var(--radius); background:rgba(255,255,255,.055); box-shadow:0 18px 50px rgba(0,0,0,.22);
+}
+.hero h2{margin:0; font-size:22px}
+.hero p{margin:6px 0 0; color:var(--muted); font-size:13px}
+.pill{border:1px solid rgba(56,189,248,.35); background:rgba(56,189,248,.10); color:#e0f2fe; padding:10px 14px; border-radius:999px; font-size:12px; font-weight:700;}
+.tool-panel{height:calc(100vh - 154px); min-height:720px; border:1px solid var(--line); border-radius:var(--radius); background:rgba(255,255,255,.045); box-shadow:var(--shadow); overflow:hidden;}
+.tool-panel[hidden]{display:none}
+.panel-bar{height:74px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px 18px; border-bottom:1px solid var(--line); background:linear-gradient(90deg,rgba(56,189,248,.12),rgba(34,197,94,.08));}
+.panel-bar h2{margin:0; font-size:18px}
+.panel-bar p{margin:4px 0 0; font-size:12px; color:var(--muted)}
+.open-btn{border:none; cursor:pointer; color:white; font-weight:800; border-radius:999px; padding:11px 15px; background:linear-gradient(90deg,#0284c7,#06b6d4); transition:.18s; white-space:nowrap;}
+.open-btn:hover{transform:translateY(-2px)}
+iframe{width:100%; height:calc(100% - 74px); border:0; background:#020617; display:block;}
+.mobile-tabs{display:none; gap:10px; overflow-x:auto; padding-bottom:12px; margin-bottom:8px;}
+.mobile-tabs .nav-item{min-width:210px}
+@media (max-width: 980px){
+  .app{display:block}
+  .sidebar{position:relative; height:auto; padding:16px; border-right:0; border-bottom:1px solid var(--line)}
+  .sidebar .nav{display:none}
+  .brand{padding:18px}
+  .brand h1{font-size:26px}
+  .main{padding:14px}
+  .mobile-tabs{display:flex}
+  .hero{display:none}
+  .tool-panel{height:calc(100vh - 230px); min-height:640px}
+  .panel-bar{height:auto; align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>Cirugía</h1>
+      <p>Centro único para notas, laboratorios, medicamentos, antecedentes y alta. Cada herramienta conserva su HTML original.</p>
+    </div>
+    <nav class="nav" aria-label="Menú principal">
+      
+<button class="nav-item active" data-target="section0" onclick="showSection('section0', this)">
+  <span class="nav-icon">📝</span>
+  <span class="nav-text"><strong>Nota de evolución</strong><small>Evolución quirúrgica</small></span>
+</button>
+<button class="nav-item" data-target="section1" onclick="showSection('section1', this)">
+  <span class="nav-icon">🏥</span>
+  <span class="nav-text"><strong>Nota posquirúrgica</strong><small>Primeras horas posoperatorias</small></span>
+</button>
+<button class="nav-item" data-target="section2" onclick="showSection('section2', this)">
+  <span class="nav-icon">🧪</span>
+  <span class="nav-text"><strong>Labs</strong><small>Conversión compacta de laboratorios</small></span>
+</button>
+<button class="nav-item" data-target="section3" onclick="showSection('section3', this)">
+  <span class="nav-icon">💊</span>
+  <span class="nav-text"><strong>Medicamentos</strong><small>Conversión de indicaciones médicas</small></span>
+</button>
+<button class="nav-item" data-target="section4" onclick="showSection('section4', this)">
+  <span class="nav-icon">📚</span>
+  <span class="nav-text"><strong>Antecedentes</strong><small>Extracción de antecedentes clínicos</small></span>
+</button>
+<button class="nav-item" data-target="section5" onclick="showSection('section5', this)">
+  <span class="nav-icon">📄</span>
+  <span class="nav-text"><strong>Informe de alta</strong><small>Resumen de egreso hospitalario</small></span>
+</button>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="mobile-tabs" aria-label="Menú móvil">
+      
+<button class="nav-item mobile-item active" data-target="section0" onclick="showSection('section0', this)">
+  <span class="nav-icon">📝</span>
+  <span class="nav-text"><strong>Nota de evolución</strong><small>Evolución quirúrgica</small></span>
+</button>
+<button class="nav-item mobile-item" data-target="section1" onclick="showSection('section1', this)">
+  <span class="nav-icon">🏥</span>
+  <span class="nav-text"><strong>Nota posquirúrgica</strong><small>Primeras horas posoperatorias</small></span>
+</button>
+<button class="nav-item mobile-item" data-target="section2" onclick="showSection('section2', this)">
+  <span class="nav-icon">🧪</span>
+  <span class="nav-text"><strong>Labs</strong><small>Conversión compacta de laboratorios</small></span>
+</button>
+<button class="nav-item mobile-item" data-target="section3" onclick="showSection('section3', this)">
+  <span class="nav-icon">💊</span>
+  <span class="nav-text"><strong>Medicamentos</strong><small>Conversión de indicaciones médicas</small></span>
+</button>
+<button class="nav-item mobile-item" data-target="section4" onclick="showSection('section4', this)">
+  <span class="nav-icon">📚</span>
+  <span class="nav-text"><strong>Antecedentes</strong><small>Extracción de antecedentes clínicos</small></span>
+</button>
+<button class="nav-item mobile-item" data-target="section5" onclick="showSection('section5', this)">
+  <span class="nav-icon">📄</span>
+  <span class="nav-text"><strong>Informe de alta</strong><small>Resumen de egreso hospitalario</small></span>
+</button>
+    </div>
+    <div class="hero">
+      <div>
+        <h2>Panel quirúrgico integrado</h2>
+        <p>Selecciona un apartado del menú. Los formularios funcionan de manera independiente.</p>
+      </div>
+      <div class="pill">6 herramientas integradas</div>
+    </div>
+    
+<section id="section0" class="tool-panel active">
+  <div class="panel-bar">
+    <div>
+      <h2>📝 Nota de evolución</h2>
+      <p>Evolución quirúrgica</p>
+    </div>
+    <button class="open-btn" onclick="openPanel('section0')">Abrir en ventana completa</button>
+  </div>
+  <iframe title="Nota de evolución" srcdoc="&lt;!DOCTYPE html&gt;
+
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;/&gt;
+&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;
+&lt;title&gt;Generador Inteligente de Nota Quirúrgica&lt;/title&gt;
+&lt;style&gt;
+
+:root{
+    --bg:#020617;
+    --card:rgba(255,255,255,.05);
+    --line:rgba(255,255,255,.08);
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --accent:#38bdf8;
+    --accent2:#22c55e;
+    --danger:#ef4444;
+    --shadow:0 15px 40px rgba(0,0,0,.35);
+    --radius:22px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Arial,sans-serif;
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at top left, rgba(56,189,248,.15), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,197,94,.12), transparent 25%),
+        linear-gradient(180deg,#020617,#0f172a,#020617);
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(2,6,23,.75);
+    border-bottom:1px solid var(--line);
+}
+
+.wrap{
+    max-width:1500px;
+    margin:auto;
+    padding:18px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.title h1{
+    margin:0;
+    font-size:28px;
+
+    background:linear-gradient(90deg,#38bdf8,#22c55e);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.title p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:13px 20px;
+    border-radius:999px;
+    font-weight:700;
+    color:white;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    background:linear-gradient(90deg,#0284c7,#06b6d4);
+}
+
+.btn-copy{
+    background:linear-gradient(90deg,#16a34a,#22c55e);
+}
+
+.btn-danger{
+    background:linear-gradient(90deg,#dc2626,#ef4444);
+}
+
+main{
+    max-width:1500px;
+    margin:auto;
+    padding:22px;
+}
+
+.grid{
+    display:grid;
+    gap:20px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.head{
+    padding:18px 22px;
+    border-bottom:1px solid var(--line);
+
+    background:
+        linear-gradient(180deg,rgba(56,189,248,.08),transparent);
+}
+
+.head h2{
+    margin:0;
+    font-size:18px;
+}
+
+.head p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.content{
+    padding:22px;
+}
+
+textarea{
+    width:100%;
+    min-height:180px;
+
+    resize:vertical;
+
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.08);
+
+    background:#020617;
+    color:white;
+
+    padding:16px;
+
+    font-size:14px;
+    line-height:1.6;
+
+    outline:none;
+    transition:.2s;
+}
+
+textarea:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 0 4px rgba(56,189,248,.15);
+}
+
+.big{
+    min-height:320px;
+}
+
+.finalbox{
+    background:#020617;
+    border:2px solid rgba(56,189,248,.25);
+    border-radius:18px;
+    padding:18px;
+}
+
+pre{
+    white-space:pre-wrap;
+    word-break:break-word;
+    color:#e2e8f0;
+    line-height:1.5;
+    font-size:13px;
+    font-family:Consolas,monospace;
+}
+
+.footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:25px;
+    padding-bottom:40px;
+}
+
+.toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:#0f172a;
+    border:1px solid rgba(56,189,248,.25);
+
+    padding:12px 18px;
+    border-radius:999px;
+
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+}
+
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;header&gt;
+&lt;div class=&quot;wrap&quot;&gt;
+&lt;div class=&quot;top&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;
+&lt;h1&gt;GENERADOR DE PROMPTS MÉDICOS&lt;/h1&gt;
+&lt;p&gt;NOTAS DE EVOLUCIÓN QUIRÚRGICAS • FORMATO HOSPITALARIO • CHATGPT READY&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;actions&quot;&gt;
+&lt;button class=&quot;btn-primary&quot; onclick=&quot;generarPrompt()&quot;&gt;⚡ GENERAR PROMPT&lt;/button&gt;
+&lt;button class=&quot;btn-copy&quot; onclick=&quot;copiarTodo()&quot;&gt;📋 COPIAR&lt;/button&gt;
+&lt;button class=&quot;btn-danger&quot; onclick=&quot;limpiar()&quot;&gt;🧹 LIMPIAR&lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/header&gt;
+&lt;main&gt;
+&lt;div class=&quot;grid&quot;&gt;
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;1) DATOS DEL PACIENTE&lt;/h2&gt;
+&lt;p&gt;Pega los datos EXACTAMENTE como vienen del sistema.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;datosPaciente&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;2) CAMBIOS DEL DÍA&lt;/h2&gt;
+&lt;p&gt;Evolución clínica, síntomas, diuresis y evacuaciones.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;cambiosHoy&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;3) LABORATORIOS DEL DÍA&lt;/h2&gt;
+&lt;p&gt;NO se modificarán. Se copiarán EXACTAMENTE igual.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;labs&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;4) GABINETE&lt;/h2&gt;
+&lt;p&gt;Ultrasonidos, TAC, radiografías, etc.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;gabinete&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;5) HISTORIAL + NOTAS PREVIAS + SIGNOS VITALES&lt;/h2&gt;
+&lt;p&gt;Pega TODA la información clínica.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea class=&quot;big&quot; id=&quot;historial&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;6) TRATAMIENTO ACTUAL&lt;/h2&gt;
+&lt;p&gt;Medicamentos, soluciones, dieta y manejo.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;tratamiento&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;7) NOMBRE DE RESIDENTES Y MIP&lt;/h2&gt;
+&lt;p&gt;Redacta o pega aquí los nombres del adscrito, residentes e interno MIP.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;residentesMip&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;PROMPT FINAL&lt;/h2&gt;
+&lt;p&gt;Listo para copiar y pegar en ChatGPT.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;finalbox&quot;&gt;
+&lt;pre id=&quot;resultado&quot;&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/div&gt;
+&lt;div class=&quot;footer&quot;&gt;
+GENERADOR MÉDICO INTELIGENTE • CIRUGÍA GENERAL • EVOLUCIÓN HOSPITALARIA
+&lt;/div&gt;
+&lt;/main&gt;
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;
+COPIADO AL PORTAPAPELES
+&lt;/div&gt;
+&lt;script&gt;
+
+function generarPrompt(){
+
+const datosPaciente = document.getElementById(&#x27;datosPaciente&#x27;).value;
+const cambiosHoy = document.getElementById(&#x27;cambiosHoy&#x27;).value;
+const labs = document.getElementById(&#x27;labs&#x27;).value;
+const gabinete = document.getElementById(&#x27;gabinete&#x27;).value;
+const historial = document.getElementById(&#x27;historial&#x27;).value;
+const tratamiento = document.getElementById(&#x27;tratamiento&#x27;).value;
+const residentesMip = document.getElementById(&#x27;residentesMip&#x27;).value;
+
+const prompt = `PROMPT PARA LA NOTA:
+Actúa como médico residente de cirugía y redacta una NOTA DE EVOLUCIÓN con lenguaje médico formal, clara, estructurada y lista para expediente.
+
+Usa EXACTAMENTE este formato y estilo (basado en práctica hospitalaria real en México):
+
+====================================
+
+NOTA DE EVOLUCIÓN [ESPECIALIDAD]
+([FECHA DE HOY en formato DD/MM/AA])
+
+Se trata de paciente [sexo] de [edad] años de edad, con los siguientes diagnósticos:
+1. [Diagnóstico principal]
+2. [Postoperado si aplica + procedimiento]
+
+Al pase de visita se encuentra paciente en [cama/reposet/deambulando]. Al interrogatorio dirigido refiere: [síntomas actuales]. Niega náuseas, mareo, vómito, cefalea u otra sintomatología agregada. Diuresis y evacuaciones [pendientes/conservadas]
+
+EXPLORACIÓN FÍSICA  
+TA [ ] mmHg | FC [ ] lpm | FR [ ] rpm | SpO2 [ ] % | Temp [ ] °C  
+
+Redacta exploración COMPLETA tipo quirúrgica (puedes copiar la de otras notas previas si hay):
+- Estado general
+- Cráneo
+- Cuello
+- Tórax (cardio + pulmonar)
+- Abdomen (DETALLADO si es quirúrgico)
+- Heridas, drenajes, sondas si existen
+- Extremidades
+
+ESTUDIOS DE LABORATORIO Y GABINETE  
+- Si no hay: “No solicitados el día de hoy”
+
+ANÁLISIS  
+Redacta análisis clínico como R4:
+- Estado hemodinámico
+- Evolución respecto a ayer (SI SE PROPORCIONA NOTA PREVIA)
+- Síntomas actuales
+- Tolerancia VO / ayuno
+- Líquidos (ej: Hartmann a XX cc/h)
+- Analgésicos (formato: Paracetamol 1 g cada 8 horas IV)
+- Antibióticos
+- Eliminaciones (diuresis, drenajes)
+- Juicio clínico claro y coherente
+- Terminar con: “Actualmente sin datos de alarma, nos mantenemos pendientes de su evolución.”
+
+PLAN  
+- Lista breve, lógica y clínica (máx 5 puntos)
+
+PRONÓSTICO  
+Reservado a evolución.
+
+Nombre de Dres (Nombre de adscrito//Nombre de residentes//Nombre de MIP) Ejemplo:” Dr.Molina Davila David  // Dr.Eric Roman R1CG // Isahi Reyes MIP”
+
+====================================
+
+REGLAS INTELIGENTES:
+
+1. Convierte signos vitales desde este formato:
+   &quot;02/05/2026 16:00  36.5 110 70 72 19 ... 92&quot;
+   →
+   TA 110/70 mmHg | FC 72 lpm | FR 19 rpm | SpO2 92 % | Temp 36.5 °C
+
+2. Si hay NOTA DE AYER:
+   - Comparar evolución (mejoría, igual, deterioro)
+   - NO copiarla, solo usarla como referencia clínica
+
+3. Medicamentos:
+   - Formato limpio: “Paracetamol 1 g cada 8 horas IV”
+   - No usar paréntesis
+
+4. Redacción:
+   - Natural, médica, no robótica
+   - Evitar texto redundante
+   - Coherente con cirugía
+
+5. Si faltan datos:
+   - Completar de forma clínica lógica (no inventar cosas absurdas)
+
+====================================
+
+NO EXPLICAR NADA.
+SOLO ENTREGAR LA NOTA.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PEGA DATOS DEL PACIENTE:
+${datosPaciente}
+
+====================================
+
+PEGA O REDACTA CAMBIOS DEL DÍA DE HOY:
+${cambiosHoy}
+
+====================================
+
+PEGA LABS DEL DÍA DE HOY:
+${labs}
+
+====================================
+
+PEGA GABINETE DEL DÍA DE HOY:
+${gabinete}
+
+====================================
+
+PEGA HISTORIAL CLÍNICO + NOTAS PREVIAS + SIGNOS VITALES:
+${historial}
+
+====================================
+
+PEGA TRATAMIENTO ACTUAL:
+${tratamiento}
+
+====================================
+
+NOMBRES DE RESIDENTES Y MIP:
+${residentesMip}
+
+====================================`;
+
+document.getElementById(&#x27;resultado&#x27;).textContent = prompt;
+
+}
+
+function copiarTodo(){
+
+const texto = document.getElementById(&#x27;resultado&#x27;).textContent;
+
+navigator.clipboard.writeText(texto);
+
+const toast = document.getElementById(&#x27;toast&#x27;);
+
+toast.classList.add(&#x27;show&#x27;);
+
+setTimeout(()=&gt;{
+toast.classList.remove(&#x27;show&#x27;);
+},1800);
+
+}
+
+function limpiar(){
+
+document.getElementById(&#x27;datosPaciente&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;cambiosHoy&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;labs&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;gabinete&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;historial&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;tratamiento&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;residentesMip&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;resultado&#x27;).textContent=&#x27;&#x27;;
+
+}
+
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;" sandbox="allow-scripts allow-forms allow-same-origin allow-modals allow-popups allow-downloads"></iframe>
+</section>
+<section id="section1" class="tool-panel" hidden>
+  <div class="panel-bar">
+    <div>
+      <h2>🏥 Nota posquirúrgica</h2>
+      <p>Primeras horas posoperatorias</p>
+    </div>
+    <button class="open-btn" onclick="openPanel('section1')">Abrir en ventana completa</button>
+  </div>
+  <iframe title="Nota posquirúrgica" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;/&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/&gt;
+
+&lt;title&gt;Generador Inteligente de Nota Postquirúrgica&lt;/title&gt;
+
+&lt;style&gt;
+
+:root{
+    --bg:#020617;
+    --card:rgba(255,255,255,.05);
+    --line:rgba(255,255,255,.08);
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --accent:#38bdf8;
+    --accent2:#22c55e;
+    --danger:#ef4444;
+    --shadow:0 15px 40px rgba(0,0,0,.35);
+    --radius:22px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Arial,sans-serif;
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at top left, rgba(56,189,248,.15), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,197,94,.12), transparent 25%),
+        linear-gradient(180deg,#020617,#0f172a,#020617);
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(2,6,23,.75);
+    border-bottom:1px solid var(--line);
+}
+
+.wrap{
+    max-width:1500px;
+    margin:auto;
+    padding:18px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.title h1{
+    margin:0;
+    font-size:28px;
+
+    background:linear-gradient(90deg,#38bdf8,#22c55e);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.title p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:13px 20px;
+    border-radius:999px;
+    font-weight:700;
+    color:white;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    background:linear-gradient(90deg,#0284c7,#06b6d4);
+}
+
+.btn-copy{
+    background:linear-gradient(90deg,#16a34a,#22c55e);
+}
+
+.btn-danger{
+    background:linear-gradient(90deg,#dc2626,#ef4444);
+}
+
+main{
+    max-width:1500px;
+    margin:auto;
+    padding:22px;
+}
+
+.grid{
+    display:grid;
+    gap:20px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.head{
+    padding:18px 22px;
+    border-bottom:1px solid var(--line);
+
+    background:
+        linear-gradient(180deg,rgba(56,189,248,.08),transparent);
+}
+
+.head h2{
+    margin:0;
+    font-size:18px;
+}
+
+.head p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.content{
+    padding:22px;
+}
+
+textarea{
+    width:100%;
+    min-height:180px;
+
+    resize:vertical;
+
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.08);
+
+    background:#020617;
+    color:white;
+
+    padding:16px;
+
+    font-size:14px;
+    line-height:1.6;
+
+    outline:none;
+    transition:.2s;
+}
+
+textarea:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 0 4px rgba(56,189,248,.15);
+}
+
+.big{
+    min-height:320px;
+}
+
+.finalbox{
+    background:#020617;
+    border:2px solid rgba(56,189,248,.25);
+    border-radius:18px;
+    padding:18px;
+}
+
+pre{
+    white-space:pre-wrap;
+    word-break:break-word;
+    color:#e2e8f0;
+    line-height:1.5;
+    font-size:13px;
+    font-family:Consolas,monospace;
+}
+
+.footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:25px;
+    padding-bottom:40px;
+}
+
+.toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:#0f172a;
+    border:1px solid rgba(56,189,248,.25);
+
+    padding:12px 18px;
+    border-radius:999px;
+
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+}
+
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;header&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+
+&lt;div class=&quot;top&quot;&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+&lt;h1&gt;GENERADOR DE NOTA POSTQUIRÚRGICA&lt;/h1&gt;
+&lt;p&gt;FORMATO HOSPITALARIO • CIRUGÍA • CHATGPT READY&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;actions&quot;&gt;
+&lt;button class=&quot;btn-primary&quot; onclick=&quot;generarPrompt()&quot;&gt;⚡ GENERAR PROMPT&lt;/button&gt;
+&lt;button class=&quot;btn-copy&quot; onclick=&quot;copiarTodo()&quot;&gt;📋 COPIAR&lt;/button&gt;
+&lt;button class=&quot;btn-danger&quot; onclick=&quot;limpiar()&quot;&gt;🧹 LIMPIAR&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/header&gt;
+
+&lt;main&gt;
+
+&lt;div class=&quot;grid&quot;&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;1) PEGA DATOS DEL PACIENTE&lt;/h2&gt;
+&lt;p&gt;Pega los datos EXACTAMENTE como vienen del sistema.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;datosPaciente&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;2) ESTADO POSQUIRÚRGICO&lt;/h2&gt;
+&lt;p&gt;Cómo se encuentra el paciente, síntomas y evolución inmediata.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;estadoPostquirurgico&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;3) PROCEDIMIENTO QUIRÚRGICO&lt;/h2&gt;
+&lt;p&gt;Pega la nota operatoria completa.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;procedimiento&quot; class=&quot;big&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;4) HISTORIAL + NOTAS PREVIAS + SIGNOS VITALES&lt;/h2&gt;
+&lt;p&gt;Pega toda la información clínica disponible.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;historial&quot; class=&quot;big&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;5) TRATAMIENTO POSQUIRÚRGICO&lt;/h2&gt;
+&lt;p&gt;Medicamentos, soluciones, medidas generales y vigilancia.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;tratamiento&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;6) RESIDENTES E INTERNOS&lt;/h2&gt;
+&lt;p&gt;Nombre de residentes, adscritos e internos MIP.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;residentes&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;PROMPT FINAL&lt;/h2&gt;
+&lt;p&gt;Listo para copiar y pegar en ChatGPT.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+
+&lt;div class=&quot;finalbox&quot;&gt;
+&lt;pre id=&quot;resultado&quot;&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/section&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;footer&quot;&gt;
+GENERADOR MÉDICO INTELIGENTE • NOTAS POSTQUIRÚRGICAS • CIRUGÍA
+&lt;/div&gt;
+
+&lt;/main&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;
+COPIADO AL PORTAPAPELES
+&lt;/div&gt;
+
+&lt;script&gt;
+
+function generarPrompt(){
+
+const datosPaciente = document.getElementById(&#x27;datosPaciente&#x27;).value;
+const estadoPostquirurgico = document.getElementById(&#x27;estadoPostquirurgico&#x27;).value;
+const procedimiento = document.getElementById(&#x27;procedimiento&#x27;).value;
+const historial = document.getElementById(&#x27;historial&#x27;).value;
+const tratamiento = document.getElementById(&#x27;tratamiento&#x27;).value;
+const residentes = document.getElementById(&#x27;residentes&#x27;).value;
+
+const prompt = `PROMPT PARA LA NOTA:
+Actúa como médico residente de cirugía y redacta una NOTA POSTQUIRÚRGICA con lenguaje médico formal, claro, estructurado y listo para expediente clínico en hospital de segundo/tercer nivel en México.
+
+RESPETA EXACTAMENTE este formato:
+
+====================================
+
+NOTA POSTQUIRÚRGICA [ESPECIALIDAD]
+([FECHA DD/MM/AA])
+
+Se trata de paciente [NOMBRE COMPLETO], [sexo] de [edad] años de edad, con los siguientes diagnósticos:
+1. [Diagnóstico prequirúrgico]
+2. Post operado de [procedimiento quirúrgico COMPLETO]
+
+Ingresa a piso posterior a procedimiento quirúrgico. Al interrogatorio dirigido refiere: [síntomas actuales o asintomático]. Niega náuseas, mareo, vómito, cefalea u otra sintomatología agregada.
+
+EXPLORACIÓN FÍSICA  
+TA [ ] mmHg | FC [ ] lpm | FR [ ] rpm | SpO2 [ ] % | Temp [ ] °C  
+
+Redacta exploración COMPLETA tipo quirúrgica:
+- Estado general
+- Cráneo
+- Cuello
+- Tórax (cardio + pulmonar)
+- Abdomen (DETALLAR heridas, apósitos, drenajes, sistemas VAC/PICO si hay)
+- Describir:
+  • tipo de drenaje  
+  • localización  
+  • características del gasto (seroso, serohemático, hemático, etc.)  
+- Peristalsis
+- Palpación abdominal completa
+- Extremidades
+
+(NO incluir estudios de laboratorio a menos que se especifique)
+
+ANÁLISIS  
+Redacta como R1:
+- Estado hemodinámico
+- Primeras horas postquirúrgicas
+- Síntomas actuales
+- Estado nutricional (ayuno / dieta)
+- Líquidos IV (ej: Hartmann a XX cc/h)
+- Analgesia (formato limpio: Paracetamol 1 g cada 8 horas IV)
+- Antibióticos
+- Anticoagulación si aplica
+- Diuresis / sonda Foley si aplica
+- Evolución clínica lógica
+- Terminar con:
+“Actualmente sin datos de alarma, nos mantenemos pendientes de su evolución.”
+
+PLAN  
+- Máximo 5 puntos
+- Clínicos, concretos
+
+PRONÓSTICO  
+Reservado a evolución.
+
+DR [NOMBRE ADSCRITO NORMAL, NO EN MAYUSCULAS]
+
+====================================
+
+REGLAS INTELIGENTES:
+
+1. SIGNOS VITALES
+Convierte automáticamente este formato:
+&quot;02/05/2026 16:00 36.5 110 70 72 19 ... 92&quot;
+→
+TA 110/70 mmHg | FC 72 lpm | FR 19 rpm | SpO2 92 % | Temp 36.5 °C
+
+2. MEDICAMENTOS
+Convertir a formato clínico:
+- Paracetamol 1 g cada 8 horas IV
+- Sin paréntesis
+- Redacción médica
+
+3. CIRUGÍA
+- Redactar procedimiento completo de forma limpia
+- Integrar drenajes, sistemas (VAC, PICO), accesos
+
+4. REDACCIÓN
+- Natural, como residente real
+- No robótica
+- Coherente con cirugía
+
+5. SI FALTAN DATOS
+- Completar de forma clínica lógica (sin inventar cosas irreales)
+
+====================================
+
+NO EXPLICAR NADA.
+SOLO ENTREGAR LA NOTA FINAL.
+
+BASATE EN LOS EJEMPLOS ADJUNTADOS
+
+====================================
+
+PEGA DATOS DEL PACIENTE:
+${datosPaciente}
+
+====================================
+
+PEGA O REDACTA COMO SE ENCUENTRA POSQUIRÚRGICAMENTE:
+${estadoPostquirurgico}
+
+====================================
+
+PEGA NOTAS DEL PROCEDIMIENTO QUIRÚRGICO:
+${procedimiento}
+
+====================================
+
+PEGA HISTORIAL CLÍNICO + NOTAS PREVIAS + SIGNOS VITALES:
+${historial}
+
+====================================
+
+PEGA TRATAMIENTO POSQUIRÚRGICO:
+${tratamiento}
+
+====================================
+
+PEGA RESIDENTES E INTERNOS:
+${residentes}
+
+====================================`;
+
+document.getElementById(&#x27;resultado&#x27;).textContent = prompt;
+
+}
+
+function copiarTodo(){
+
+const texto = document.getElementById(&#x27;resultado&#x27;).textContent;
+
+navigator.clipboard.writeText(texto);
+
+const toast = document.getElementById(&#x27;toast&#x27;);
+
+toast.classList.add(&#x27;show&#x27;);
+
+setTimeout(()=&gt;{
+toast.classList.remove(&#x27;show&#x27;);
+},1800);
+
+}
+
+function limpiar(){
+
+document.getElementById(&#x27;datosPaciente&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;estadoPostquirurgico&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;procedimiento&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;historial&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;tratamiento&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;residentes&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;resultado&#x27;).textContent=&#x27;&#x27;;
+
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+" sandbox="allow-scripts allow-forms allow-same-origin allow-modals allow-popups allow-downloads"></iframe>
+</section>
+<section id="section2" class="tool-panel" hidden>
+  <div class="panel-bar">
+    <div>
+      <h2>🧪 Labs</h2>
+      <p>Conversión compacta de laboratorios</p>
+    </div>
+    <button class="open-btn" onclick="openPanel('section2')">Abrir en ventana completa</button>
+  </div>
+  <iframe title="Labs" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+
+&lt;title&gt;Convertidor de Laboratorios Clínicos&lt;/title&gt;
+
+&lt;style&gt;
+
+:root{
+    --bg:#020617;
+    --bg2:#0f172a;
+    --card:#111827;
+    --line:rgba(255,255,255,.08);
+
+    --text:#f8fafc;
+    --muted:#94a3b8;
+
+    --blue:#38bdf8;
+    --green:#22c55e;
+    --red:#ef4444;
+
+    --shadow:
+        0 20px 45px rgba(0,0,0,.35);
+
+    --radius:24px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:40px;
+
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,197,94,.10), transparent 25%),
+        linear-gradient(180deg,#020617,#0f172a,#020617);
+}
+
+.container{
+    max-width:1500px;
+    margin:auto;
+}
+
+.card{
+    overflow:hidden;
+
+    border-radius:var(--radius);
+
+    border:1px solid var(--line);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.02)
+        );
+
+    box-shadow:var(--shadow);
+}
+
+.header{
+    padding:28px;
+
+    border-bottom:
+        1px solid var(--line);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(56,189,248,.15),
+            rgba(34,197,94,.10)
+        );
+}
+
+.header h1{
+    margin:0;
+
+    font-size:30px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #38bdf8,
+            #22c55e
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.header p{
+    margin-top:10px;
+    color:var(--muted);
+}
+
+.grid{
+    display:grid;
+    gap:20px;
+
+    padding:24px;
+}
+
+.section{
+    background:
+        rgba(255,255,255,.03);
+
+    border:
+        1px solid rgba(255,255,255,.05);
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+.sectionTitle{
+    padding:18px 22px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.03);
+
+    font-weight:700;
+}
+
+textarea{
+    width:100%;
+
+    border:none;
+    outline:none;
+
+    resize:vertical;
+
+    min-height:320px;
+
+    background:#020617;
+
+    color:#e2e8f0;
+
+    padding:24px;
+
+    line-height:1.7;
+
+    font-size:14px;
+
+    font-family:
+        &quot;JetBrains Mono&quot;,
+        Consolas,
+        monospace;
+}
+
+#resultado{
+    min-height:500px;
+}
+
+.buttons{
+    display:flex;
+    gap:14px;
+
+    flex-wrap:wrap;
+
+    padding:24px;
+}
+
+button{
+    border:none;
+
+    cursor:pointer;
+
+    padding:14px 22px;
+
+    border-radius:999px;
+
+    color:white;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.generate{
+    background:
+        linear-gradient(
+            90deg,
+            #0284c7,
+            #06b6d4
+        );
+}
+
+.copy{
+    background:
+        linear-gradient(
+            90deg,
+            #16a34a,
+            #22c55e
+        );
+}
+
+.clear{
+    background:
+        linear-gradient(
+            90deg,
+            #dc2626,
+            #ef4444
+        );
+}
+
+.toast{
+    position:fixed;
+
+    bottom:30px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:#0f172a;
+
+    border:
+        1px solid rgba(56,189,248,.25);
+
+    padding:14px 20px;
+
+    border-radius:999px;
+
+    opacity:0;
+
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+}
+
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+
+&lt;div class=&quot;card&quot;&gt;
+
+&lt;div class=&quot;header&quot;&gt;
+
+&lt;h1&gt;CONVERTIDOR DE LABORATORIOS CLÍNICOS&lt;/h1&gt;
+
+&lt;p&gt;
+Pega laboratorios crudos y copia TODO el prompt listo para ChatGPT.
+&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;grid&quot;&gt;
+
+&lt;div class=&quot;section&quot;&gt;
+
+&lt;div class=&quot;sectionTitle&quot;&gt;
+🧪 PEGA LABORATORIOS CRUDOS
+&lt;/div&gt;
+
+&lt;textarea id=&quot;inputLabs&quot; placeholder=&quot;Pega aquí los laboratorios...&quot;&gt;&lt;/textarea&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;section&quot;&gt;
+
+&lt;div class=&quot;sectionTitle&quot;&gt;
+📋 PROMPT FINAL LISTO PARA CHATGPT
+&lt;/div&gt;
+
+&lt;textarea id=&quot;resultado&quot; readonly&gt;&lt;/textarea&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;buttons&quot;&gt;
+
+&lt;button class=&quot;generate&quot; onclick=&quot;generarPrompt()&quot;&gt;
+⚡ Generar Prompt
+&lt;/button&gt;
+
+&lt;button class=&quot;copy&quot; onclick=&quot;copiarTodo()&quot;&gt;
+📋 Copiar Todo
+&lt;/button&gt;
+
+&lt;button class=&quot;clear&quot; onclick=&quot;limpiarTodo()&quot;&gt;
+🧹 Limpiar
+&lt;/button&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;
+Copiado
+&lt;/div&gt;
+
+&lt;script&gt;
+
+const promptBase = `Eres un asistente de conversión de laboratorios clínicos a formato compacto médico.
+
+OBJETIVO
+Convertir resultados de laboratorio desordenados en una sola línea, usando abreviaturas médicas estándar y valores numéricos.
+
+REGLAS OBLIGATORIAS
+
+- No expliques nada.
+- No copies el orden del EJEMPLO SINO DEL TEXTO ORIGINAL EN SU TOTALIDAD.
+- Usa SOLO formato compacto:
+ABREVIATURA valor ABREVIATURA valor ABREVIATURA valor...
+- Una sola línea de salida.
+- Si un dato no existe, omítelo.
+- Reporta absolutamente todos los valores aunque no haya puesto su abreviatura abajo.
+- Redondea a 1–2 decimales si es necesario.
+- Pon fecha del día (si se especifica) en formato dd/mm.
+
+Usa estas abreviaturas:
+
+NA (sodio), K (potasio), CL (cloro), CO2 (bicarbonato), P (fósforo), MG (magnesio), GLI (glucosa), CR (creatinina), CA (calcio), ALB (albúmina), FA (fosfatasa alcalina), AU (ácido úrico), BUN, UREAC (urea calculada), BT (bilirrubina total), TGO, TGP, LDH, INR, TP, TTP, LT (leucocitos), RBC, HGB, HTO, VCM, MCH, MCHC, ADE, PLQ (plaquetas), VPM, NE%, LYM%, MON%, EOS%, BAS%, NE#, LYM#, MON#, EOS#, BAS#, PCR, VSG, entre otras.
+
+Ejemplo:
+
+“(26/05) GLI 89 UREAC 30.2 BUN 14.1 CR 1.24 NA 136.5 K 5.26 CL 108.7 CO2 23.72 P 2.45 MG 2.07 LT 4.5 RBC 3.71 HGB 10.5 HTO 31.4 VCM 84.6 MCH 28.3 MCHC 33.4 ADE 21.8 PLQ 196 VPM 9 NE% 54.2 LYM% 23.2 MON% 10.9 EOS% 0 BAS% 0.7 NE# 2.43 LYM# 1.1 MON# 0.5 EOS# 0 BAS# 0 MDW 26.54”
+
+AHORA PROCESA ESTO:
+
+`;
+
+function generarPrompt(){
+
+    const input =
+        document.getElementById(
+            &#x27;inputLabs&#x27;
+        ).value;
+
+    document.getElementById(
+        &#x27;resultado&#x27;
+    ).value =
+        promptBase + &quot;\\n\\n&quot; + input;
+}
+
+function copiarTodo(){
+
+    const resultado =
+        document.getElementById(
+            &#x27;resultado&#x27;
+        );
+
+    resultado.select();
+
+    resultado.setSelectionRange(
+        0,
+        999999
+    );
+
+    navigator.clipboard.writeText(
+        resultado.value
+    );
+
+    mostrarToast(
+        &#x27;✅ Copiado al portapapeles&#x27;
+    );
+}
+
+function limpiarTodo(){
+
+    document.getElementById(
+        &#x27;inputLabs&#x27;
+    ).value=&#x27;&#x27;;
+
+    document.getElementById(
+        &#x27;resultado&#x27;
+    ).value=&#x27;&#x27;;
+
+    mostrarToast(
+        &#x27;🧹 Limpiado&#x27;
+    );
+}
+
+function mostrarToast(msg){
+
+    const toast =
+        document.getElementById(
+            &#x27;toast&#x27;
+        );
+
+    toast.innerText = msg;
+
+    toast.classList.add(
+        &#x27;show&#x27;
+    );
+
+    setTimeout(()=&gt;{
+
+        toast.classList.remove(
+            &#x27;show&#x27;
+        );
+
+    },1800);
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;" sandbox="allow-scripts allow-forms allow-same-origin allow-modals allow-popups allow-downloads"></iframe>
+</section>
+<section id="section3" class="tool-panel" hidden>
+  <div class="panel-bar">
+    <div>
+      <h2>💊 Medicamentos</h2>
+      <p>Conversión de indicaciones médicas</p>
+    </div>
+    <button class="open-btn" onclick="openPanel('section3')">Abrir en ventana completa</button>
+  </div>
+  <iframe title="Medicamentos" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+
+&lt;title&gt;Convertidor de Indicaciones Médicas&lt;/title&gt;
+
+&lt;style&gt;
+
+:root{
+    --bg:#020617;
+    --bg2:#0f172a;
+    --card:#111827;
+    --line:rgba(255,255,255,.08);
+
+    --text:#f8fafc;
+    --muted:#94a3b8;
+
+    --blue:#38bdf8;
+    --green:#22c55e;
+    --red:#ef4444;
+
+    --shadow:
+        0 20px 45px rgba(0,0,0,.35);
+
+    --radius:24px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:40px;
+
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,197,94,.10), transparent 25%),
+        linear-gradient(180deg,#020617,#0f172a,#020617);
+}
+
+.container{
+    max-width:1500px;
+    margin:auto;
+}
+
+.card{
+    overflow:hidden;
+
+    border-radius:var(--radius);
+
+    border:1px solid var(--line);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.02)
+        );
+
+    box-shadow:var(--shadow);
+}
+
+.header{
+    padding:28px;
+
+    border-bottom:
+        1px solid var(--line);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(56,189,248,.15),
+            rgba(34,197,94,.10)
+        );
+}
+
+.header h1{
+    margin:0;
+
+    font-size:30px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #38bdf8,
+            #22c55e
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.header p{
+    margin-top:10px;
+    color:var(--muted);
+}
+
+.grid{
+    display:grid;
+    gap:20px;
+
+    padding:24px;
+}
+
+.section{
+    background:
+        rgba(255,255,255,.03);
+
+    border:
+        1px solid rgba(255,255,255,.05);
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+.sectionTitle{
+    padding:18px 22px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.03);
+
+    font-weight:700;
+}
+
+textarea{
+    width:100%;
+
+    border:none;
+    outline:none;
+
+    resize:vertical;
+
+    min-height:320px;
+
+    background:#020617;
+
+    color:#e2e8f0;
+
+    padding:24px;
+
+    line-height:1.7;
+
+    font-size:14px;
+
+    font-family:
+        &quot;JetBrains Mono&quot;,
+        Consolas,
+        monospace;
+}
+
+#resultado{
+    min-height:500px;
+}
+
+.buttons{
+    display:flex;
+    gap:14px;
+
+    flex-wrap:wrap;
+
+    padding:24px;
+}
+
+button{
+    border:none;
+
+    cursor:pointer;
+
+    padding:14px 22px;
+
+    border-radius:999px;
+
+    color:white;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.generate{
+    background:
+        linear-gradient(
+            90deg,
+            #0284c7,
+            #06b6d4
+        );
+}
+
+.copy{
+    background:
+        linear-gradient(
+            90deg,
+            #16a34a,
+            #22c55e
+        );
+}
+
+.clear{
+    background:
+        linear-gradient(
+            90deg,
+            #dc2626,
+            #ef4444
+        );
+}
+
+.toast{
+    position:fixed;
+
+    bottom:30px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:#0f172a;
+
+    border:
+        1px solid rgba(56,189,248,.25);
+
+    padding:14px 20px;
+
+    border-radius:999px;
+
+    opacity:0;
+
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+}
+
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+
+&lt;div class=&quot;card&quot;&gt;
+
+&lt;div class=&quot;header&quot;&gt;
+
+&lt;h1&gt;CONVERTIDOR DE INDICACIONES MÉDICAS&lt;/h1&gt;
+
+&lt;p&gt;
+Pega las indicaciones crudas del sistema y copia TODO el prompt listo para ChatGPT.
+&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;grid&quot;&gt;
+
+&lt;div class=&quot;section&quot;&gt;
+
+&lt;div class=&quot;sectionTitle&quot;&gt;
+📥 PEGA INDICACIONES CRUDAS DEL SISTEMA
+&lt;/div&gt;
+
+&lt;textarea id=&quot;inputIndicaciones&quot; placeholder=&quot;Pega aquí las indicaciones médicas...&quot;&gt;&lt;/textarea&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;section&quot;&gt;
+
+&lt;div class=&quot;sectionTitle&quot;&gt;
+📋 PROMPT FINAL LISTO PARA CHATGPT
+&lt;/div&gt;
+
+&lt;textarea id=&quot;resultado&quot; readonly&gt;&lt;/textarea&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;buttons&quot;&gt;
+
+&lt;button class=&quot;generate&quot; onclick=&quot;generarPrompt()&quot;&gt;
+⚡ Generar Prompt
+&lt;/button&gt;
+
+&lt;button class=&quot;copy&quot; onclick=&quot;copiarTodo()&quot;&gt;
+📋 Copiar Todo
+&lt;/button&gt;
+
+&lt;button class=&quot;clear&quot; onclick=&quot;limpiarTodo()&quot;&gt;
+🧹 Limpiar
+&lt;/button&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;
+Copiado
+&lt;/div&gt;
+
+&lt;script&gt;
+
+const promptBase = `INSERTAS MEDICAMENTOS EN FORMATO CRUDO
+
+Chat, por favor ayúdame con lo siguiente:
+
+Indicaciones:
+Revisa las indicaciones médicas que te enviaré y compáralas con mi censo.
+No agregues explicaciones.
+Usa únicamente el formato: nombre dosis vía de administración (abreviada) frecuencia.
+
+Ponlo en el siguiente formato:
+
+1. Dieta
+2. Soluciones
+3. Medicamentos:
+x
+
+Reglas importantes:
+
+- Si aparece una solución fisiológica seguida de un medicamento, asume que forma parte de la misma combinación y omite la solución a menos que sea una Hartmann, 1x1 o fisiológica igual o mayor de 500 cc; aun así si tiene medicamento o multivitamínico ponlo como “+medicamento”.
+
+- Si aparece una solución fisiológica seguida de un medicamento y es menor de 500 cc, omite la solución y deja solo el medicamento.
+
+- Si no hay ningún medicamento que encaje con el sistema, escribe:
+“Sin manejo a éste nivel”.
+
+- Solo incluye soluciones cuando lleven explícitamente la frase “dosis respuesta”.
+
+- Si no hay ninguna solución, hacer que el punto número 2 diga:
+“Sin soluciones”.
+
+- Cuando veas algo que diga “dosis respuesta”, no escribas eso; escribe la velocidad de infusión en “cc/h”.
+
+- Los medicamentos que sean más de 2 enlistarlos con “-”.
+
+- Cuando sean más de 2 medicamentos usar formato:
+-Omeprazol 40 mg IV c/24h
+-Paracetamol 1 gr IV c/8h
+
+- Si no hay tratamiento antibiótico o anticoagulante, omitir el apartado.
+
+- Si está disponible agregar horario entre paréntesis:
+(00/08/16), (06/18), (21)
+
+- Letra normal, no todo en mayúsculas.
+
+Ejemplo:
+
+1. Ayuno
+2. Sol. Hartmann 1000 ml 40 cc/h
+3. Medicamentos
+-Omeprazol 40 mg IV c/24h (08)
+-Paracetamol 1 gr IV c/8h (03/11/19)
+-Clonixinato de lisina 125 mg VO c/8h (00/08/16)
+-Parecoxib 40 mg IV c/12h (08/20)
+
+Éstas son las indicaciones actuales que aparecen en el sistema, redáctamelas en el mismo formato:
+
+`;
+
+function generarPrompt(){
+
+    const input =
+        document.getElementById(
+            &#x27;inputIndicaciones&#x27;
+        ).value;
+
+    document.getElementById(
+        &#x27;resultado&#x27;
+    ).value =
+        promptBase + &quot;\n\n&quot; + input;
+}
+
+function copiarTodo(){
+
+    const resultado =
+        document.getElementById(
+            &#x27;resultado&#x27;
+        );
+
+    resultado.select();
+
+    resultado.setSelectionRange(
+        0,
+        999999
+    );
+
+    navigator.clipboard.writeText(
+        resultado.value
+    );
+
+    mostrarToast(
+        &#x27;✅ Copiado al portapapeles&#x27;
+    );
+}
+
+function limpiarTodo(){
+
+    document.getElementById(
+        &#x27;inputIndicaciones&#x27;
+    ).value=&#x27;&#x27;;
+
+    document.getElementById(
+        &#x27;resultado&#x27;
+    ).value=&#x27;&#x27;;
+
+    mostrarToast(
+        &#x27;🧹 Limpiado&#x27;
+    );
+}
+
+function mostrarToast(msg){
+
+    const toast =
+        document.getElementById(
+            &#x27;toast&#x27;
+        );
+
+    toast.innerText = msg;
+
+    toast.classList.add(
+        &#x27;show&#x27;
+    );
+
+    setTimeout(()=&gt;{
+
+        toast.classList.remove(
+            &#x27;show&#x27;
+        );
+
+    },1800);
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+   
+" sandbox="allow-scripts allow-forms allow-same-origin allow-modals allow-popups allow-downloads"></iframe>
+</section>
+<section id="section4" class="tool-panel" hidden>
+  <div class="panel-bar">
+    <div>
+      <h2>📚 Antecedentes</h2>
+      <p>Extracción de antecedentes clínicos</p>
+    </div>
+    <button class="open-btn" onclick="openPanel('section4')">Abrir en ventana completa</button>
+  </div>
+  <iframe title="Antecedentes" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;
+&lt;title&gt;Generador de Antecedentes Médicos&lt;/title&gt;
+
+&lt;style&gt;
+
+:root{
+    --bg:#020617;
+    --card:rgba(255,255,255,.05);
+    --line:rgba(255,255,255,.08);
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --accent:#38bdf8;
+    --accent2:#22c55e;
+    --danger:#ef4444;
+    --shadow:0 15px 40px rgba(0,0,0,.35);
+    --radius:22px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Arial,sans-serif;
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at top left, rgba(56,189,248,.15), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,197,94,.12), transparent 25%),
+        linear-gradient(180deg,#020617,#0f172a,#020617);
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(2,6,23,.75);
+    border-bottom:1px solid var(--line);
+}
+
+.wrap{
+    max-width:1400px;
+    margin:auto;
+    padding:18px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.title h1{
+    margin:0;
+    font-size:28px;
+
+    background:linear-gradient(90deg,#38bdf8,#22c55e);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.title p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:13px 20px;
+    border-radius:999px;
+    font-weight:700;
+    color:white;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    background:linear-gradient(90deg,#0284c7,#06b6d4);
+}
+
+.btn-copy{
+    background:linear-gradient(90deg,#16a34a,#22c55e);
+}
+
+.btn-danger{
+    background:linear-gradient(90deg,#dc2626,#ef4444);
+}
+
+main{
+    max-width:1400px;
+    margin:auto;
+    padding:22px;
+}
+
+.grid{
+    display:grid;
+    gap:20px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.head{
+    padding:18px 22px;
+    border-bottom:1px solid var(--line);
+
+    background:
+        linear-gradient(180deg,rgba(56,189,248,.08),transparent);
+}
+
+.head h2{
+    margin:0;
+    font-size:18px;
+}
+
+.head p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.content{
+    padding:22px;
+}
+
+textarea{
+    width:100%;
+    min-height:350px;
+
+    resize:vertical;
+
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.08);
+
+    background:#020617;
+    color:white;
+
+    padding:16px;
+
+    font-size:14px;
+    line-height:1.6;
+
+    outline:none;
+    transition:.2s;
+}
+
+textarea:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 0 4px rgba(56,189,248,.15);
+}
+
+.finalbox{
+    background:#020617;
+    border:2px solid rgba(56,189,248,.25);
+    border-radius:18px;
+    padding:18px;
+}
+
+pre{
+    white-space:pre-wrap;
+    word-break:break-word;
+    color:#e2e8f0;
+    line-height:1.7;
+    font-size:14px;
+    font-family:Consolas,monospace;
+}
+
+.footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:25px;
+    padding-bottom:40px;
+}
+
+.toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:#0f172a;
+    border:1px solid rgba(56,189,248,.25);
+
+    padding:12px 18px;
+    border-radius:999px;
+
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+}
+
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;header&gt;
+&lt;div class=&quot;wrap&quot;&gt;
+&lt;div class=&quot;top&quot;&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+&lt;h1&gt;GENERADOR DE ANTECEDENTES MÉDICOS&lt;/h1&gt;
+&lt;p&gt;EXTRACCIÓN INTELIGENTE • FORMATO HOSPITALARIO • CHATGPT READY&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;actions&quot;&gt;
+&lt;button class=&quot;btn-primary&quot; onclick=&quot;generarPrompt()&quot;&gt;⚡ GENERAR&lt;/button&gt;
+&lt;button class=&quot;btn-copy&quot; onclick=&quot;copiarTexto()&quot;&gt;📋 COPIAR&lt;/button&gt;
+&lt;button class=&quot;btn-danger&quot; onclick=&quot;limpiar()&quot;&gt;🧹 LIMPIAR&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+
+&lt;div class=&quot;grid&quot;&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;1) PEGA LA ANAMNESIS / NOTAS&lt;/h2&gt;
+&lt;p&gt;Pega TODO el texto clínico exactamente como viene del sistema.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;entrada&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;PROMPT FINAL&lt;/h2&gt;
+&lt;p&gt;Listo para copiar y pegar en ChatGPT.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;finalbox&quot;&gt;
+&lt;pre id=&quot;resultado&quot;&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;footer&quot;&gt;
+GENERADOR MÉDICO INTELIGENTE • ANTECEDENTES PERSONALES PATOLÓGICOS
+&lt;/div&gt;
+
+&lt;/main&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;
+COPIADO AL PORTAPAPELES
+&lt;/div&gt;
+
+&lt;script&gt;
+
+function generarPrompt(){
+
+const entrada = document.getElementById(&#x27;entrada&#x27;).value;
+
+const prompt = `
+
+Actúa como médico residente y extrae ÚNICAMENTE los antecedentes clínicos relevantes del siguiente texto hospitalario.
+
+FORMATO OBLIGATORIO DE SALIDA:
+
+A: [alergias]
+APP: [antecedentes patológicos]
+AQx: [antecedentes quirúrgicos]
+MH: [medicamentos habituales]
+
+REGLAS:
+- TODO en minúsculas excepto siglas médicas necesarias
+- Eliminar texto innecesario
+- NO explicar nada
+- NO agregar encabezados extras
+- NO usar viñetas
+- NO repetir información
+- Mantener formato EXACTO
+- Si no existe un apartado colocar:
+  &quot;sin antecedentes referidos&quot;
+
+EJEMPLO DE SALIDA:
+
+A: ciprofloxacino
+APP: hipotiroidismo (2016), hipercolesterolemia (2016), miomas uterinos remitido (1991)
+AQx: histerectomia (1991), litotripsia izquierda (2000), reducción fractura tibia (2016)
+MH: rosuvastatina 1 mg cada 24 horas, levotiroxina 50 mcg cada 24 horas y norflex plus media tableta cada 12 horas
+
+====================================
+
+TEXTO CLÍNICO:
+${entrada}
+
+`;
+
+document.getElementById(&#x27;resultado&#x27;).textContent = prompt;
+
+}
+
+function copiarTexto(){
+
+const texto = document.getElementById(&#x27;resultado&#x27;).textContent;
+
+navigator.clipboard.writeText(texto);
+
+const toast = document.getElementById(&#x27;toast&#x27;);
+
+toast.classList.add(&#x27;show&#x27;);
+
+setTimeout(()=&gt;{
+toast.classList.remove(&#x27;show&#x27;);
+},1800);
+
+}
+
+function limpiar(){
+
+document.getElementById(&#x27;entrada&#x27;).value=&#x27;&#x27;;
+document.getElementById(&#x27;resultado&#x27;).textContent=&#x27;&#x27;;
+
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+" sandbox="allow-scripts allow-forms allow-same-origin allow-modals allow-popups allow-downloads"></iframe>
+</section>
+<section id="section5" class="tool-panel" hidden>
+  <div class="panel-bar">
+    <div>
+      <h2>📄 Informe de alta</h2>
+      <p>Resumen de egreso hospitalario</p>
+    </div>
+    <button class="open-btn" onclick="openPanel('section5')">Abrir en ventana completa</button>
+  </div>
+  <iframe title="Informe de alta" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;
+&lt;title&gt;Generador de Resumen Médico&lt;/title&gt;
+
+&lt;style&gt;
+
+:root{
+    --bg:#020617;
+    --card:rgba(255,255,255,.05);
+    --line:rgba(255,255,255,.08);
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --accent:#38bdf8;
+    --accent2:#22c55e;
+    --danger:#ef4444;
+    --shadow:0 15px 40px rgba(0,0,0,.35);
+    --radius:22px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Arial,sans-serif;
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at top left, rgba(56,189,248,.15), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,197,94,.12), transparent 25%),
+        linear-gradient(180deg,#020617,#0f172a,#020617);
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(2,6,23,.75);
+    border-bottom:1px solid var(--line);
+}
+
+.wrap{
+    max-width:1400px;
+    margin:auto;
+    padding:18px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.title h1{
+    margin:0;
+    font-size:28px;
+
+    background:linear-gradient(90deg,#38bdf8,#22c55e);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.title p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:13px 20px;
+    border-radius:999px;
+    font-weight:700;
+    color:white;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    background:linear-gradient(90deg,#0284c7,#06b6d4);
+}
+
+.btn-copy{
+    background:linear-gradient(90deg,#16a34a,#22c55e);
+}
+
+.btn-danger{
+    background:linear-gradient(90deg,#dc2626,#ef4444);
+}
+
+main{
+    max-width:1400px;
+    margin:auto;
+    padding:22px;
+}
+
+.grid{
+    display:grid;
+    gap:20px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.head{
+    padding:18px 22px;
+    border-bottom:1px solid var(--line);
+
+    background:
+        linear-gradient(180deg,rgba(56,189,248,.08),transparent);
+}
+
+.head h2{
+    margin:0;
+    font-size:18px;
+}
+
+.head p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.content{
+    padding:22px;
+}
+
+textarea{
+    width:100%;
+    min-height:180px;
+
+    resize:vertical;
+
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.08);
+
+    background:#020617;
+    color:white;
+
+    padding:16px;
+
+    font-size:14px;
+    line-height:1.6;
+
+    outline:none;
+    transition:.2s;
+}
+
+textarea:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 0 4px rgba(56,189,248,.15);
+}
+
+.big{
+    min-height:320px;
+}
+
+.finalbox{
+    background:#020617;
+    border:2px solid rgba(56,189,248,.25);
+    border-radius:18px;
+    padding:18px;
+}
+
+pre{
+    white-space:pre-wrap;
+    word-break:break-word;
+    color:#e2e8f0;
+    line-height:1.5;
+    font-size:13px;
+    font-family:Consolas,monospace;
+}
+
+.footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:25px;
+    padding-bottom:40px;
+}
+
+.toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:#0f172a;
+    border:1px solid rgba(56,189,248,.25);
+
+    padding:12px 18px;
+    border-radius:999px;
+
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+}
+
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;header&gt;
+&lt;div class=&quot;wrap&quot;&gt;
+&lt;div class=&quot;top&quot;&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+&lt;h1&gt;GENERADOR DE RESUMEN DE EGRESO&lt;/h1&gt;
+&lt;p&gt;RESUMEN HOSPITALARIO • FORMATO MÉXICO • CHATGPT READY&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;actions&quot;&gt;
+&lt;button class=&quot;btn-primary&quot; onclick=&quot;generarPrompt()&quot;&gt;⚡ GENERAR PROMPT&lt;/button&gt;
+&lt;button class=&quot;btn-copy&quot; onclick=&quot;copiarTexto()&quot;&gt;📋 COPIAR&lt;/button&gt;
+&lt;button class=&quot;btn-danger&quot; onclick=&quot;limpiar()&quot;&gt;🧹 LIMPIAR&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+
+&lt;div class=&quot;grid&quot;&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;1) DATOS DEL PACIENTE&lt;/h2&gt;
+&lt;p&gt;Pega los datos EXACTAMENTE como vienen del sistema.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;datosPaciente&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;2) HISTORIAL CLÍNICO + URGENCIAS + PISO&lt;/h2&gt;
+&lt;p&gt;Pega toda la evolución clínica y notas previas.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;historial&quot; class=&quot;big&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;3) TRATAMIENTO ACTUAL&lt;/h2&gt;
+&lt;p&gt;Medicamentos, soluciones, antibióticos y manejo actual.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;textarea id=&quot;tratamiento&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;card&quot;&gt;
+&lt;div class=&quot;head&quot;&gt;
+&lt;h2&gt;PROMPT FINAL&lt;/h2&gt;
+&lt;p&gt;Listo para copiar y pegar en ChatGPT.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;finalbox&quot;&gt;
+&lt;pre id=&quot;resultado&quot;&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;footer&quot;&gt;
+GENERADOR MÉDICO INTELIGENTE • RESUMEN DE EGRESO HOSPITALARIO
+&lt;/div&gt;
+
+&lt;/main&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;
+COPIADO AL PORTAPAPELES
+&lt;/div&gt;
+
+&lt;script&gt;
+
+function generarPrompt() {
+
+let datos = document.getElementById(&quot;datosPaciente&quot;).value;
+let historial = document.getElementById(&quot;historial&quot;).value;
+let tratamiento = document.getElementById(&quot;tratamiento&quot;).value;
+
+let prompt = `
+Actúa como médico residente de cirugía general y redacta un RESUMEN DE EGRESO HOSPITALARIO con lenguaje médico formal, claro, coherente y listo para expediente clínico.
+
+Debes seleccionar AUTOMÁTICAMENTE el formato correcto según:
+- Sexo del paciente: hombre o mujer
+- Tipo de ingreso: admisión o urgencias
+
+Usa EXACTAMENTE la estructura correspondiente y respeta la redacción médica habitual en hospitales de México.
+
+====================================
+
+FORMATOS DISPONIBLES:
+
+1) HOMBRE ADM RESUMEN  
+El paciente [Nombre del paciente] de [Edad] años de edad, ingresó al servicio de cirugía general el día [Fecha de ingreso] mediante admisiones con diagnóstico de [Diagnóstico] para manejo quirúrgico.  
+
+Durante su estancia hospitalaria, se explica y obtiene firma de consentimiento informado y posteriormente el paciente es sometido a [Procedimiento Quirúrgico] con [Colocación de Drenajes**] y [Toma de Biopsias**]. El paciente ingresa a piso de hospitalización clínica y hemodinámicamente estable y continúa tratamiento con [Tratamiento en piso].
+
+El paciente presentó una evolución [Evolución clínica] durante su estancia, por lo que se decide su egreso a domicilio. Al momento del alta, se encuentra [Estado al egreso] [Condiciones adicionales: drenajes/puntos/grapas/estomas].
+
+Se le explican los datos de alarma al paciente incluyendo: fiebre, dolor que no cede con medicamentos, vómitos incoercibles, pérdida de la consciencia, sangrado evidente, entre otros. Se hace entrega de sus recetas y se da cita de seguimiento.
+
+------------------------------------
+
+2) HOMBRE URG RESUMEN  
+El paciente [Nombre del paciente] de [Edad] años de edad, ingresó al servicio de cirugía general el día [Fecha de ingreso] mediante el servicio de urgencias al referir que [Padecimiento actual].  
+
+Durante su estancia en urgencias se realiza exploración física completa y estudios de laboratorio, incluyendo: [Laboratorios], así como [Gabinete], donde se reporta: [Resultados relevantes]. Se inicia manejo con: [Tratamiento en urgencias]. Se decide ingreso a hospitalización para resolución quirúrgica.
+
+Durante su estancia hospitalaria, se obtiene consentimiento informado y posteriormente el paciente es sometido a [Procedimiento Quirúrgico] con [Drenajes] y [Biopsias]. Ingresa estable a piso y continúa tratamiento con [Tratamiento en piso].
+
+El paciente presentó evolución [Evolución clínica], por lo que se decide egreso a domicilio. Al alta se encuentra [Estado] [Condiciones adicionales].
+
+Se explican datos de alarma (inserta todos los que encuentres) y se entrega receta con cita de seguimiento.
+
+------------------------------------
+
+3) MUJER URG RESUMEN  
+(PMISMO FORMATO QUE HOMBRE URG, ajustando redacción a femenino)
+
+------------------------------------
+
+4) MUJER ADM RESUMEN  
+(PMISMO FORMATO QUE HOMBRE ADM, ajustando redacción a femenino)
+
+====================================
+
+REGLAS INTELIGENTES:
+
+1. Seleccionar automáticamente el formato correcto (sexo + tipo ingreso).
+2. Redacción:
+   - Fluida, médica, no robótica
+   - Evitar repeticiones innecesarias
+   - Coherente con contexto quirúrgico
+3. Evolución:
+   - Usar frases como: “favorable, sin complicaciones” si no se especifica
+4. Estado al egreso:
+   - “hemodinámicamente estable, con signos vitales dentro de parámetros normales” si no se indica
+5. Tratamientos:
+   - Redactar en forma continua (no en lista)
+6. Si faltan datos:
+   - Completar de forma lógica y clínicamente congruente
+7. No usar viñetas ni listas
+8. No explicar nada fuera del resumen
+9. Los medicamentos con posología, solo incluyendo la solución de base sin las soluciones aforadas. Ejemplo “continúa tratamiento canalizado con Hartman de 1000 cc a 40 cc/h,  suplementación de cloruro de potasio 20 mEq intravenoso, Paracetamol 1 g intravenoso cada 8 horas, Parecoxib 40 mg intravenoso cada 12 horas, Levofloxacino 750 mg intravenoso cada 24 horas, 
+10. En datos de alarma enlista todos los que tengan que ver posquirurgico a esa operacion
+
+====================================
+
+DATOS DE ENTRADA:
+
+SEXO: [hombre/mujer]  (en letra normal, no mayusculas)
+TIPO DE INGRESO: [admisión/urgencias]  
+NOMBRE: [nombre completo]  
+EDAD: [años]  
+FECHA DE INGRESO: [dd/mm/aaaa]  
+DIAGNÓSTICO: [diagnóstico principal]  
+PADECIMIENTO ACTUAL (si urgencias): [texto]  
+LABORATORIOS: [opcional]  
+GABINETE: [opcional]  
+RESULTADOS RELEVANTES: [opcional]  
+TRATAMIENTO EN URGENCIAS: [opcional]  
+PROCEDIMIENTO QUIRÚRGICO: [cirugía realizada]  
+DRENAJES: [sí/no + tipo]  
+BIOPSIAS: [sí/no]  
+TRATAMIENTO EN PISO: [medicación y manejo]  
+EVOLUCIÓN: [texto]  
+ESTADO AL EGRESO: [texto]  
+CONDICIONES AL ALTA: [herida, drenajes, estomas, etc.]
+
+====================================
+
+ENTREGA SOLO EL RESUMEN FINAL.
+NO EXPLICAR NADA.
+
+====================================
+
+DATOS DEL PACIENTE:
+${datos}
+
+====================================
+
+HISTORIAL CLÍNICO + URGENCIAS + PISO:
+${historial}
+
+====================================
+
+TRATAMIENTO ACTUAL:
+${tratamiento}
+
+====================================
+`;
+
+document.getElementById(&quot;resultado&quot;).textContent = prompt;
+}
+
+function copiarTexto(){
+
+const texto = document.getElementById(&quot;resultado&quot;).textContent;
+
+navigator.clipboard.writeText(texto);
+
+const toast = document.getElementById(&quot;toast&quot;);
+
+toast.classList.add(&quot;show&quot;);
+
+setTimeout(()=&gt;{
+toast.classList.remove(&quot;show&quot;);
+},1800);
+
+}
+
+function limpiar(){
+
+document.getElementById(&quot;datosPaciente&quot;).value=&#x27;&#x27;;
+document.getElementById(&quot;historial&quot;).value=&#x27;&#x27;;
+document.getElementById(&quot;tratamiento&quot;).value=&#x27;&#x27;;
+document.getElementById(&quot;resultado&quot;).textContent=&#x27;&#x27;;
+
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;" sandbox="allow-scripts allow-forms allow-same-origin allow-modals allow-popups allow-downloads"></iframe>
+</section>
+  </main>
+</div>
+<script>
+function showSection(id, btn){
+  document.querySelectorAll('.tool-panel').forEach(p=>{p.hidden=true; p.classList.remove('active');});
+  const panel=document.getElementById(id);
+  if(panel){panel.hidden=false; panel.classList.add('active');}
+  const label = btn && btn.querySelector('strong') ? btn.querySelector('strong').textContent : '';
+  document.querySelectorAll('.nav-item').forEach(b=>{
+    const bLabel = b.querySelector('strong') ? b.querySelector('strong').textContent : '';
+    b.classList.toggle('active', bLabel === label);
+  });
+}
+function openPanel(id){
+  const iframe = document.querySelector('#'+id+' iframe');
+  if(!iframe) return;
+  const win = window.open('', '_blank');
+  if(!win) return;
+  win.document.open();
+  win.document.write(iframe.getAttribute('srcdoc'));
+  win.document.close();
+}
+</script>
+</body>
+</html>
